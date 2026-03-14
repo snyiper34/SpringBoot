@@ -10,7 +10,8 @@ public class ProductBasket {
     private final Map<UUID, Integer> basketProducts = new HashMap<>();
 
     public void addProduct(UUID id) {
-        basketProducts.put(id, basketProducts.getOrDefault(id, 0) + 1);
+        basketProducts.computeIfAbsent(id, key -> 0);
+        basketProducts.put(id, basketProducts.get(id) + 1);
     }
 
     public Map<UUID, Integer> getBasketProducts() {

@@ -1,6 +1,5 @@
 package org.skypro.skyshop.model.service;
 
-
 import org.skypro.skyshop.model.article.Article;
 import org.skypro.skyshop.model.product.Product;
 import org.skypro.skyshop.model.search.Searchable;
@@ -19,21 +18,29 @@ public class StorageService {
     }
 
     private void fillTestData() {
-        productStorage.put(UUID.randomUUID(), new Product(UUID.randomUUID(), "Ноутбук Lenovo", 75000));
-        productStorage.put(UUID.randomUUID(), new Product(UUID.randomUUID(), "Беспроводная мышь", 1500));
-        productStorage.put(UUID.randomUUID(), new Product(UUID.randomUUID(), "Смартфон Samsung", 35000));
-        productStorage.put(UUID.randomUUID(), new Product(UUID.randomUUID(), "Беспроводные наушники", 8000));
-        productStorage.put(UUID.randomUUID(), new Product(UUID.randomUUID(), "Кабель USB-C 2м", 5000));
+        addProduct(new Product(UUID.randomUUID(), "Ноутбук Lenovo", 75000));
+        addProduct(new Product(UUID.randomUUID(), "Беспроводная мышь", 1500));
+        addProduct(new Product(UUID.randomUUID(), "Смартфон Samsung", 35000));
+        addProduct(new Product(UUID.randomUUID(), "Беспроводные наушники", 8000));
+        addProduct(new Product(UUID.randomUUID(), "Кабель USB-C 2м", 5000));
 
-        articleStorage.put(UUID.randomUUID(), new Article(UUID.randomUUID(),
+        addArticle(new Article(UUID.randomUUID(),
                 "Как выбрать ноутбук",
                 "В этом руководстве мы расскажем, на что обратить внимание при выборе ноутбука"));
-        articleStorage.put(UUID.randomUUID(), new Article(UUID.randomUUID(),
+        addArticle(new Article(UUID.randomUUID(),
                 "Преимущества беспроводных наушников",
                 "Беспроводные наушники обеспечивают свободу движения"));
-        articleStorage.put(UUID.randomUUID(), new Article(UUID.randomUUID(),
+        addArticle(new Article(UUID.randomUUID(),
                 "Обзор смартфонов 2024",
                 "Лучшие смартфоны этого года"));
+    }
+
+    private void addProduct(Product product) {
+        productStorage.put(product.getId(), product);
+    }
+
+    private void addArticle(Article article) {
+        articleStorage.put(article.getId(), article);
     }
 
     public Collection<Product> getAllProducts() {
@@ -49,5 +56,9 @@ public class StorageService {
         searchables.addAll(productStorage.values());
         searchables.addAll(articleStorage.values());
         return searchables;
+    }
+
+    public Optional<Product> getProductById(UUID id) {
+        return Optional.ofNullable(productStorage.get(id));
     }
 }
